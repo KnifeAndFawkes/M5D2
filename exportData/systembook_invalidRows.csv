@@ -1,0 +1,9 @@
+Id,Books,Book checkout,Book Returned,Days allowed to borrow,Customer ID,Valid Rows
+2,Lord of the rings the two towers,2023-03-24,2023-03-21,14,2,Fail - checkout not before return
+3,Lord of the rings the return of the kind,2023-03-29,2023-03-25,14,3,Fail - checkout not before return
+4,The hobbit,2023-04-02,2023-03-25,14,4,Fail - checkout not before return
+5,Dune ,2023-04-02,2023-03-25,14,5,Fail - checkout not before return
+7,IT,2063-04-10,2023-04-03,14,6,Fail - future date
+8,Misery ,2023-04-15,2023-04-03,14,7,Fail - checkout not before return
+17,The Bloody Chamber,,2023-06-04,14,3,Fail - invalid date
+21,,2023-06-01,2023-06-05,14,,Fail - invalid book name
