@@ -1,0 +1,34 @@
+import unittest
+from calculator import Calculator
+
+class TestOperations(unittest.TestCase):
+
+    def setUp(self):
+        x=8
+        y=2
+        self.calc = Calculator(x,y)
+        self.x = x
+        self.y = y
+
+    # Arrange, Act and Asset <- General flow 
+
+    def test_add(self):
+        self.assertEqual(self.calc.Add(), (self.x+self.y), "The sum is wrong")
+        
+    def test_multiply(self):
+        self.assertEqual(self.calc.Multiply(), (self.x*self.y), "The sum is wrong")
+    
+    def test_subtract(self):
+        self.assertEqual(self.calc.subtract(), (self.x-self.y), "The sum is wrong")
+
+    def test_divideTrue(self):
+        self.assertEqual(self.calc.divide(True), (self.x/self.y), "The sum is wrong")
+
+    def test_divideFalse(self):
+        self.assertEqual(self.calc.divide(False), (self.y/self.x), "The sum is wrong")
+
+    def tearDown(self):
+        return super().tearDown()
+
+if __name__ == "__main__":
+    unittest.main()
