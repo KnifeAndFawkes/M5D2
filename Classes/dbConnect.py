@@ -25,7 +25,7 @@ class SQLHelper:
         engine = create_engine(url,fast_executemany=True)
 
         with engine.connect() as conn:
-            print("Connected")
+            print(f"Connected to database: {server}:{database}...\n")
 
         return engine
     
@@ -33,3 +33,4 @@ class SQLHelper:
         systembook.to_sql("systembook", con=engine, if_exists="replace", index=False)
         systemCustomers.to_sql("systemCustomers", con=engine, if_exists="replace", index=False)
         invalidRows_systembook.to_sql("systembookErrors", con=engine, if_exists="replace", index=False)
+        print("Database save complete...\n")

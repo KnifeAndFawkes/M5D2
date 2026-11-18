@@ -1,6 +1,7 @@
 import pandas as pd 
 import os
 from Classes.DBConnect import SQLHelper
+from Classes.SystemBooksHelper import SystemBooksHelper
 
 class DataOutputHandle: 
 
@@ -18,9 +19,7 @@ class DataOutputHandle:
         invalidRows_systembook = sb[sb["Valid Rows"] != "Pass"]
 
         # Cleanup failed + remove column
-
-        sb = sb[sb["Valid Rows"] == "Pass"]
-        sb = sb.drop(columns=["Valid Rows"])   
+        sb = SystemBooksHelper.removeFailedRows(sb)
 
         os.makedirs("exportData", exist_ok=True)
 

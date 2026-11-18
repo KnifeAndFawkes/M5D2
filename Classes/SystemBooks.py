@@ -1,37 +1,42 @@
 import pandas as pd 
+from Classes.SystemCleanup import SystemCleanup
+from Classes.SystemBooksHelper import SystemBooksHelper
 
 class SystemBooks: 
     def __init__(self,systemBooks):
         self.systemBooks = systemBooks
-    
+
     def cleanBooks(self):
     
-        # Remove nulls / Nan
-        sb = self.systemBooks.dropna(how="all")
+        sb = self.systemBooks
+
+        # Remove nulls 
+        sb= SystemCleanup.removeNullRows(sb)
     
         # Strip the '"" from dates
-        sb["Book checkout"] = sb["Book checkout"].str.strip('"')
+        sb["Book checkout"] = SystemCleanup.removeQuotes(sb["Book checkout"])
         
         # Convert IDs to int 
-        sb["Customer ID"] = sb["Customer ID"].astype("Int64")
-        sb["Id"] = sb["Id"].astype("Int64")
+        sb["Customer ID"] = SystemCleanup.convertToInt(sb["Customer ID"])
+        sb["Id"] = SystemCleanup.convertToInt(sb["Id"])        
         
-        # Convert weeks to days 
-        sb["Days allowed to borrow"] = sb["Days allowed to borrow"].str.extract(r"(\d+)", expand=False).astype("Int64") * 7 
+        # Convert weeks to days
+        sb["Days allowed to borrow"] = SystemCleanup.convertWeeksToDays(sb["Days allowed to borrow"])
 
-        self.systemBooks = sb
+        self.systemBooks = sb    
     
     def validateBooks(self): 
 
         sb = self.systemBooks
 
+        # Add new "valid" column
+        sb = SystemBooksHelper.addValidRows(sb)
+
         # Check for empty book names
-        sb["Valid Rows"] = "Pass"
-        sb["Valid Rows"] = sb["Valid Rows"].mask(sb["Books"].isna(), "Fail - invalid book name")    
+        sb = SystemBooksHelper.validateEmptyBookNames(sb) 
         
         # Convert to datetime + remove invalid dates 
-        for c in ["Book checkout", "Book Returned"]:
-            sb[c] = pd.to_datetime(sb[c], format="%d/%m/%Y", errors="coerce")
+        sb = SystemBooksHelper.convertDatetimes(sb)
     
         # Invalid date
         sb["Valid Rows"] = sb["Valid Rows"].mask(sb["Book checkout"].isna() | sb["Book Returned"].isna(), "Fail - invalid date")

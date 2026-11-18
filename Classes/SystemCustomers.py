@@ -1,4 +1,5 @@
 import pandas as pd 
+from Classes.SystemCleanup import SystemCleanup
 
 class SystemCustomers: 
     def __init__(self,systemCustomers):
@@ -7,10 +8,12 @@ class SystemCustomers:
     # Customer Cleanup 
 
     def cleanAndValidateCustomers(self): 
-
-        sc = self.systemCustomers.dropna(how="all")
+        
+        sc = self.systemCustomers
+        
+        sc= SystemCleanup.removeNullRows(sc)
 
         # Convert IDs to int 
-        sc["Customer ID"] = sc["Customer ID"].astype("Int64")
+        sc["Customer ID"] = SystemCleanup.convertToInt(sc["Customer ID"])
 
         self.systemCustomers = sc
