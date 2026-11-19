@@ -6,8 +6,8 @@ from Classes.SystemCustomers import SystemCustomers
 from Classes.OutputData import DataOutputHandle
 
 def parseArgs():
-    parser = argparse.ArgumentParser(description="Clean and validate library data")
-    parser.add_argument("--db",action="store_true",help="Save to the database instead of a local file")
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--db",action="store_true")
     return parser.parse_args()
 
 def main():
